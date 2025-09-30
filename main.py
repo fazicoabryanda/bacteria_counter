@@ -66,8 +66,20 @@ def apply_global_css():
             color: #1F1F39;
         }
 
-        /* Hide default header/footer (clean look) */
-        header, footer { visibility: hidden; height: 0; }
+        /* DO NOT HIDE header; make it clean & transparent so the sidebar toggle stays visible */
+        header[data-testid="stHeader"] {
+            background: transparent !important;
+            height: 56px; 
+        }
+        /* Ensure the collapsed sidebar chevron is always visible */
+        div[data-testid="collapsedControl"] {
+            display: block !important;
+            color: #A057D0 !important;
+            z-index: 9999 !important;
+        }
+
+        /* You can still hide the footer if you like */
+        footer { visibility: hidden; height: 0; }
 
         /* Headings */
         h1 { font-size: 3.2rem !important; line-height: 1.1 !important; font-weight: 700 !important; }
@@ -77,9 +89,7 @@ def apply_global_css():
 
         /* Tabs */
         div[data-testid="stTabs"] button p { color:#1F1F39 !important; font-weight:600; }
-        div[data-testid="stTabs"] button[aria-selected="true"] {
-            border-bottom-color:#A35AEE !important;
-        }
+        div[data-testid="stTabs"] button[aria-selected="true"] { border-bottom-color:#A35AEE !important; }
 
         /* Image card wrapper */
         .image-card { background:transparent; border:none; border-radius:0; box-shadow:none; padding:0; margin-bottom:20px; text-align:center; }
@@ -95,30 +105,28 @@ def apply_global_css():
             padding:14px 16px; margin-bottom:20px;
         }
 
-        /* --------- SIDEBAR BEAUTY --------- */
-        aside[aria-label="sidebar"] {
-            background: #A057D0 !important;      /* your purple */
-            color: #FFFFFF !important;
-        }
-        /* Sidebar text */
+        /* --------- SIDEBAR (purple) --------- */
+        aside[aria-label="sidebar"] { background: #A057D0 !important; color: #FFFFFF !important; }
         aside[aria-label="sidebar"] * { color: #FFFFFF !important; }
+        aside[aria-label="sidebar"] h1, 
+        aside[aria-label="sidebar"] h2, 
+        aside[aria-label="sidebar"] h3 { letter-spacing:.2px; font-weight:700 !important; }
 
-        /* Sidebar headings */
-        aside[aria-label="sidebar"] h3, 
-        aside[aria-label="sidebar"] h2,
-        aside[aria-label="sidebar"] h1 {
-            color:#FFFFFF !important; letter-spacing:.2px; font-weight:700 !important;
-        }
-
-        /* Sidebar buttons */
-        aside[aria-label="sidebar"] button {
+        /* Vertical, tidy buttons */
+        aside[aria-label="sidebar"] .stButton > button {
+            width: 100% !important;
+            display: block !important;
+            padding: 12px 14px !important;
+            margin: 6px 0 12px 0 !important;
+            border-radius: 12px !important;
             background: rgba(255,255,255,0.16) !important;
             border: 1px solid rgba(255,255,255,0.18) !important;
-            border-radius: 12px !important;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.12) !important;
+            color: #FFFFFF !important;
             font-weight: 700 !important;
+            text-align: left;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12) !important;
         }
-        aside[aria-label="sidebar"] button:hover {
+        aside[aria-label="sidebar"] .stButton > button:hover {
             background: rgba(255,255,255,0.24) !important;
             transform: translateY(-1px);
         }
@@ -138,7 +146,7 @@ def apply_global_css():
         aside[aria-label="sidebar"] .stSlider [data-baseweb="slider"] > div > div { background: rgba(255,255,255,0.35) !important; }
         aside[aria-label="sidebar"] .stCheckbox label { color:#FFFFFF !important; font-weight:600 !important; }
 
-        /* Sidebar caption */
+        /* Small caption color */
         aside[aria-label="sidebar"] .stCaption { color:#F2E9FF !important; }
         </style>
         """,
@@ -230,7 +238,7 @@ def home_page():
 def counter_page(model):
     set_png_as_page_bg(BACKGROUND_VECTOR)
 
-    st.markdown("<h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bacteria Colonies Counter</h2>", unsafe_allow_html=True)
+    st.markdown("<h2>Bacteria Colonies Counter</h2>", unsafe_allow_html=True)
     st.caption("Upload a Petri dish image or use the camera. Prediction runs automatically. Tune detection in the **NMS Settings** on the sidebar.")
 
     if st.session_state.uploaded_image is not None:
@@ -335,18 +343,17 @@ def main():
 
     # Sidebar
     with st.sidebar:
-        st.markdown("### 🔬 Bacteria COUNTER")
+        st.markdown("### 🔬 BIO-LAB COUNTER")
         st.caption("Version 1.0")
 
-        a, b = st.columns(2)
-        with a:
-            if st.button("🏠 Home"):
-                st.session_state.page = "Home"
-                st.rerun()
-        with b:
-            if st.button("🦠 Counter"):
-                st.session_state.page = "Colony Counter"
-                st.rerun()
+        # Vertical nav buttons
+        if st.button("🏠 Home", use_container_width=True):
+            st.session_state.page = "Home"
+            st.rerun()
+
+        if st.button("🦠 Counter", use_container_width=True):
+            st.session_state.page = "Colony Counter"
+            st.rerun()
 
         st.markdown("---")
 
