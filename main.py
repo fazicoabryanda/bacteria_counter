@@ -238,7 +238,7 @@ def home_page():
 def counter_page(model):
     set_png_as_page_bg(BACKGROUND_VECTOR)
 
-    st.markdown("<h2>Bacteria Colonies Counter</h2>", unsafe_allow_html=True)
+    st.markdown("<h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bacteria Colonies Counter</h2>", unsafe_allow_html=True)
     st.caption("Upload a Petri dish image or use the camera. Prediction runs automatically. Tune detection in the **NMS Settings** on the sidebar.")
 
     if st.session_state.uploaded_image is not None:
@@ -394,3 +394,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
