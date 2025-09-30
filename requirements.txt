@@ -1,0 +1,12 @@
+streamlit
+Pillow
+opencv-python
+ultralytics
+Werkzeug
+streamlit-option-menu
+numpy
+pandas
+scikit-image
+matplotlib
+seaborn
+scikit-learn
