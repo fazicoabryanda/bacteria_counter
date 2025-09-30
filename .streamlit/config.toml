@@ -1,0 +1,7 @@
+[theme]
+base="light"
+primaryColor="#A35AEE"          # warna utama tombol/slider
+backgroundColor="#FEF9FF"       # latar utama app
+secondaryBackgroundColor="#C1B3EC"  # 👉 warna sidebar
+textColor="#1F1F39"
+font="sans serif"
